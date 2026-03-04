@@ -74,6 +74,15 @@
             <groupId>org.springaicommunity</groupId>
             <artifactId>spring-ai-agentcore-memory</artifactId>
         </dependency>
+		        <!-- Knowledge Base (RAG) -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-vector-store-bedrock-knowledgebase</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-advisors-vector-store</artifactId>
+        </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

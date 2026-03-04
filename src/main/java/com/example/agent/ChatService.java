@@ -14,6 +14,8 @@ import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
+import org.springframework.ai.vectorstore.VectorStore;
 
 record ChatRequest(String prompt) {}
 
@@ -30,6 +32,7 @@ public class ChatService {
         """;
 
     public ChatService(AgentCoreMemory agentCoreMemory,
+        VectorStore kbVectorStore,
         ChatClient.Builder chatClientBuilder) {
 
         List<Advisor> advisors = new ArrayList<>();
@@ -37,6 +40,12 @@ public class ChatService {
         // Memory (STM + LTM)
         advisors.addAll(agentCoreMemory.advisors);
         logger.info("Memory enabled: {} advisors", agentCoreMemory.advisors.size());
+
+         // Knowledge Base (RAG)
+        if (kbVectorStore != null) {
+            advisors.add(QuestionAnswerAdvisor.builder(kbVectorStore).build());
+            logger.info("KB RAG enabled");
+        }
 
         this.chatClient = chatClientBuilder
             .defaultSystem(SYSTEM_PROMPT)
