@@ -33,6 +33,8 @@ public class ChatService {
 
     public ChatService(AgentCoreMemory agentCoreMemory,
         VectorStore kbVectorStore,
+        WebGroundingTools webGroundingTools,
+        ContextAdvisor contextAdvisor,
         ChatClient.Builder chatClientBuilder) {
 
         List<Advisor> advisors = new ArrayList<>();
@@ -47,9 +49,21 @@ public class ChatService {
             logger.info("KB RAG enabled");
         }
 
+        // ContextAdvisor
+        advisors.add(contextAdvisor);
+		logger.info("Context Advisor enabled");
+
+        // Tools
+        List<Object> localTools = new ArrayList<>();
+        if (webGroundingTools != null) {
+            localTools.add(webGroundingTools);
+			logger.info("Web Grounding enabled");
+        }
+
         this.chatClient = chatClientBuilder
             .defaultSystem(SYSTEM_PROMPT)
             .defaultAdvisors(advisors.toArray(new Advisor[0]))
+            .defaultTools(localTools.toArray())
             .build();
     }
 
