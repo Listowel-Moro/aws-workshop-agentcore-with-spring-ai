@@ -69,6 +69,11 @@
             <groupId>org.springaicommunity</groupId>
             <artifactId>spring-ai-agentcore-runtime-starter</artifactId>
         </dependency>
+		        <!-- AgentCore Memory dependencies -->
+        <dependency>
+            <groupId>org.springaicommunity</groupId>
+            <artifactId>spring-ai-agentcore-memory</artifactId>
+        </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
